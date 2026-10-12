@@ -1,0 +1,18 @@
+<!-- components/dock.html — bottom icon toolbar (views, tour, lighting, pause, photo, settings). -->
+<div class="dock" role="toolbar" aria-label="City and landscape controls">
+  <button data-view="0" class="active" aria-label="Full landscape overview"><svg viewBox="0 0 24 24"><path d="M4 20V10h5v10M9 20V4h6v16M15 20V8h5v12M2 20h20M11 8h2M11 12h2M11 16h2"/></svg></button>
+  <button data-view="1" id="viewHeritage" aria-label="Heritage district"><svg viewBox="0 0 24 24"><path d="M3 20h18M5 20V10h14v10M4 10h16M7 10a5 5 0 0 1 10 0M12 3v2M9 20v-6h6v6"/></svg></button>
+  <button data-view="2" id="viewGarden" aria-label="Garden district"><svg viewBox="0 0 24 24"><path d="M12 20v-5M7 15h10M12 3l-6 8h3l-4 5h14l-4-5h3Z"/></svg></button>
+  <button data-view="3" id="viewRiver" aria-label="Riverfront"><svg viewBox="0 0 24 24"><path d="M2 9c3-4 5 4 8 0s5 4 8 0 4 0 4 0M2 15c3-4 5 4 8 0s5 4 8 0 4 0 4 0M3 21h18"/></svg></button>
+  <button data-view="4" aria-label="Village"><svg viewBox="0 0 24 24"><path d="m2 11 7-6 7 6M4 10v10h10V10M8 20v-6h3v6M15 12l4-4 4 4M17 12v8h5v-8"/></svg></button>
+  <button data-view="5" aria-label="Snowy mountain panorama"><svg viewBox="0 0 24 24"><path d="m2 20 8-15 5 9 3-5 4 11ZM7 11l3 2 2-2"/></svg></button>
+  <span class="divider" aria-hidden="true"></span>
+  <button id="tour" aria-label="Start or stop the guided camera tour"><svg viewBox="0 0 24 24"><path d="m9 5 10 7-10 7Z"/></svg></button>
+  <button data-light="day" aria-label="Day lighting"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1 1M18 18l1 1M5 19l1-1M18 6l1-1"/></svg></button>
+  <button data-light="golden" aria-label="Golden hour lighting"><svg viewBox="0 0 24 24"><path d="M3 17h18M5 21h14M7 17a5 5 0 0 1 10 0M12 4v4M3 9l3 3M21 9l-3 3"/></svg></button>
+  <button data-light="night" aria-label="Night lighting"><svg viewBox="0 0 24 24"><path d="M20 15A9 9 0 0 1 9 4a9 9 0 1 0 11 11Z"/></svg></button>
+  <button data-light="live" class="active" aria-label="Use live India time for lighting" title="Live IST lighting"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2M3 3l3 1M21 3l-3 1"/></svg></button>
+  <button id="pause" aria-label="Pause city animation"><svg viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></svg></button>
+  <button id="shot" aria-label="Download a photograph of the scene"><svg viewBox="0 0 24 24"><path d="M3 7h5l2-3h4l2 3h5v13H3Z"/><circle cx="12" cy="13" r="4"/></svg></button>
+  <button id="settings" aria-label="Traffic and rendering settings" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 17h16"/><circle cx="9" cy="7" r="2" fill="currentColor"/><circle cx="15" cy="17" r="2" fill="currentColor"/></svg></button>
+</div>

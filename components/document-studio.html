@@ -1,0 +1,17 @@
+<section id="documentStudio" class="document-studio" role="dialog" aria-modal="false" aria-labelledby="studioTitle" hidden>
+  <header class="studio-header"><div><span class="eyebrow">NIRMAL · OFFICE 01</span><h2 id="studioTitle">Document Studio</h2><p id="studioArrival">Your workspace in the city</p></div><button id="closeStudio" aria-label="Close Document Studio">×</button></header>
+  <div class="studio-body">
+    <label class="field-label" for="documentTool">What would you like to do?</label><select id="documentTool"></select>
+    <p id="toolDescription" class="tool-description"></p>
+    <form id="documentForm">
+      <label id="fileDrop" class="file-drop" for="documentFiles"><svg viewBox="0 0 24 24"><path d="M12 16V3m-5 5 5-5 5 5M4 16v5h16v-5"/></svg><strong>Choose files or drop them here</strong><span id="fileAcceptHint"></span><input id="documentFiles" type="file"></label>
+      <ul id="documentFileList" class="document-file-list" aria-label="Selected files"></ul>
+      <div id="documentOptions" class="document-options"></div>
+      <div id="documentProgress" class="document-progress" hidden><div></div></div>
+      <p id="documentStatus" class="document-status" role="status" aria-live="polite"></p>
+      <button id="runDocumentTool" type="submit" class="primary-action" disabled>Create document <span>→</span></button>
+    </form>
+    <div id="documentResult" class="document-result" hidden><span class="result-check">✓</span><div><strong id="resultTitle">Your file is ready</strong><p id="resultDetail"></p><a id="downloadDocument" download>Download result ↓</a></div></div>
+    <p class="studio-local-note">Local processing · No account needed · Files stay in your browser</p>
+  </div>
+</section>

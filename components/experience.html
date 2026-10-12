@@ -1,0 +1,24 @@
+<!-- Left navigation is the product directory for the city. -->
+<header class="scene-hud">
+  <div class="scene-brand"><span class="brand-mark">N</span><div><strong>NIRMAL</strong><span>A city for everyday life</span></div></div>
+  <div class="india-clock"><span class="live-dot" aria-hidden="true"></span><div><time id="indiaTime">--:--:--</time><span id="indiaDate">India Standard Time · UTC +05:30</span></div><span class="timezone">IST</span></div>
+</header>
+<button id="navToggle" class="nav-toggle" aria-label="Open city navigation" aria-controls="cityNavigation" aria-expanded="true"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span>Explore &amp; tools</span></button>
+<aside class="explore-panel city-navigation" id="cityNavigation" aria-label="City navigation and products">
+  <div class="nav-heading"><div><span class="eyebrow">YOUR USEFUL CITY</span><h2>Explore &amp; create</h2></div><button id="navCollapse" aria-label="Collapse navigation">‹</button></div>
+  <label class="nav-search"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="6"/><path d="m15 15 5 5"/></svg><input id="navSearch" type="search" placeholder="Find a place or a tool" aria-label="Search city features"></label>
+  <div class="nav-scroll">
+    <section class="nav-section"><h3>BUILDING FEATURES <span>OFFICE 01</span></h3><details class="building-features" id="documentFeatures" data-building="document-studio"><summary><span class="office-icon">▤</span><span><strong>Document Studio</strong><small>7 document tools</small></span><span class="feature-chevron" aria-hidden="true">⌄</span></summary><div class="building-feature-content"><button class="office-card" id="visitDocumentOffice"><span>Visit Document Studio</span><span>↗</span></button><nav id="documentNav" aria-label="Document tools"></nav></div></details></section>
+    <section class="nav-section"><h3>EXPLORE THE CITY</h3><nav class="neighbourhood-links" aria-label="City destinations">
+      <button data-view="0">Full landscape <span>↗</span></button><button data-view="1">Heritage district <span>↗</span></button><button data-view="2">Gardens &amp; lake <span>↗</span></button><button data-view="3">Riverfront <span>↗</span></button><button data-view="4">Village &amp; farms <span>↗</span></button><button data-view="5">Mountains &amp; meadow <span>↗</span></button><button data-view="6">Societies <span>↗</span></button><button data-view="7">School &amp; play <span>↗</span></button><button data-view="8">Police station <span>↗</span></button>
+    </nav></section>
+    <section class="nav-section"><h3>SCENE CONTROLS</h3><div class="move-modes" role="group" aria-label="Camera movement mode"><button data-move="orbit" class="active" aria-pressed="true" title="Orbit mode (O)"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="9" ry="5"/><path d="m15 5 3 3-4 2"/></svg>Orbit</button><button data-move="pan" aria-pressed="false" title="Pan move mode (P)"><svg viewBox="0 0 24 24"><path d="M12 3v18M3 12h18m-12-6 3-3 3 3m-6 12 3 3 3-3M6 9l-3 3 3 3m12-6 3 3-3 3"/></svg>Pan move</button></div><p id="moveHint">Drag to orbit · Scroll to zoom</p>
+      <div class="nav-actions"><button data-action="tour">Guided tour</button><button data-action="pause">Pause / resume</button><button data-action="shot">Take a photo</button><button data-action="settings">Scene settings</button></div>
+      <div class="nav-lighting" role="group" aria-label="Time and lighting"><button data-light="live" class="active">Live IST</button><button data-light="day">Day</button><button data-light="golden">Golden</button><button data-light="night">Night</button></div>
+    </section>
+    <p id="navEmpty" hidden>No matching tools or places.</p>
+  </div>
+  <footer class="nav-footer"><span class="live-dot"></span>Files are processed on your device</footer>
+</aside>
+<div class="time-status"><span id="lightStatus">Live India time</span><span id="dayPhase">Synchronising daylight</span></div>
+<div id="sectorTooltip" class="sector-tooltip" role="tooltip" hidden></div>

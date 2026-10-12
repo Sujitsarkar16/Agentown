@@ -1,0 +1,50 @@
+/* Nirmal — css/dock.css
+ * Bottom icon toolbar (camera views, lighting, tour, pause, photo, settings). */
+
+.dock {
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 7px;
+  border-radius: 16px;
+  background: #f7faf0d1;
+  backdrop-filter: blur(16px);
+  border: 1px solid #fff8;
+  box-shadow: 0 6px 28px #14372612;
+  transition: opacity 0.25s;
+}
+
+.dock button,
+.closepanel {
+  display: grid;
+  place-items: center;
+  width: 37px;
+  height: 37px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: #486355;
+}
+
+.dock button:hover,
+.dock button.active {
+  background: #dce8d7;
+  color: #1a5739;
+}
+
+.dock button.touring {
+  background: #245d46;
+  color: #fff;
+}
+
+.divider {
+  height: 21px;
+  width: 1px;
+  margin: 0 3px;
+  background: #53745725;
+}

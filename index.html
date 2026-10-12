@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<head>
+<!-- components/head.html — document head. Source of truth for index.html <head>. -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#d5e0d4">
+<meta name="description" content="Explore a living 3D Indian city with unique architecture, residential societies, schools, playgrounds, a colourful village and green mountains. Live India-time lighting, offline.">
+<title>Nirmal — City, Village and Mountains</title>
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/dock.css">
+<link rel="stylesheet" href="css/panel.css">
+<link rel="stylesheet" href="css/overlays.css">
+<link rel="stylesheet" href="css/experience.css">
+<link rel="stylesheet" href="css/products.css">
+</head>
+<body>
+<canvas id="world" tabindex="0" aria-label="Interactive 3D Indian city, village and mountains. Select Orbit or Pan move, drag to explore, scroll or pinch to zoom."></canvas>
+<!-- Left navigation is the product directory for the city. -->
+<header class="scene-hud">
+  <div class="scene-brand"><span class="brand-mark">N</span><div><strong>NIRMAL</strong><span>A city for everyday life</span></div></div>
+  <div class="india-clock"><span class="live-dot" aria-hidden="true"></span><div><time id="indiaTime">--:--:--</time><span id="indiaDate">India Standard Time · UTC +05:30</span></div><span class="timezone">IST</span></div>
+</header>
+<button id="navToggle" class="nav-toggle" aria-label="Open city navigation" aria-controls="cityNavigation" aria-expanded="true"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span>Explore &amp; tools</span></button>
+<aside class="explore-panel city-navigation" id="cityNavigation" aria-label="City navigation and products">
+  <div class="nav-heading"><div><span class="eyebrow">YOUR USEFUL CITY</span><h2>Explore &amp; create</h2></div><button id="navCollapse" aria-label="Collapse navigation">‹</button></div>
+  <label class="nav-search"><svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="6"/><path d="m15 15 5 5"/></svg><input id="navSearch" type="search" placeholder="Find a place or a tool" aria-label="Search city features"></label>
+  <div class="nav-scroll">
+    <section class="nav-section"><h3>BUILDING FEATURES <span>OFFICE 01</span></h3><details class="building-features" id="documentFeatures" data-building="document-studio"><summary><span class="office-icon">▤</span><span><strong>Document Studio</strong><small>7 document tools</small></span><span class="feature-chevron" aria-hidden="true">⌄</span></summary><div class="building-feature-content"><button class="office-card" id="visitDocumentOffice"><span>Visit Document Studio</span><span>↗</span></button><nav id="documentNav" aria-label="Document tools"></nav></div></details></section>
+    <section class="nav-section"><h3>EXPLORE THE CITY</h3><nav class="neighbourhood-links" aria-label="City destinations">
+      <button data-view="0">Full landscape <span>↗</span></button><button data-view="1">Heritage district <span>↗</span></button><button data-view="2">Gardens &amp; lake <span>↗</span></button><button data-view="3">Riverfront <span>↗</span></button><button data-view="4">Village &amp; farms <span>↗</span></button><button data-view="5">Mountains &amp; meadow <span>↗</span></button><button data-view="6">Societies <span>↗</span></button><button data-view="7">School &amp; play <span>↗</span></button><button data-view="8">Police station <span>↗</span></button>
+    </nav></section>
+    <section class="nav-section"><h3>SCENE CONTROLS</h3><div class="move-modes" role="group" aria-label="Camera movement mode"><button data-move="orbit" class="active" aria-pressed="true" title="Orbit mode (O)"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="9" ry="5"/><path d="m15 5 3 3-4 2"/></svg>Orbit</button><button data-move="pan" aria-pressed="false" title="Pan move mode (P)"><svg viewBox="0 0 24 24"><path d="M12 3v18M3 12h18m-12-6 3-3 3 3m-6 12 3 3 3-3M6 9l-3 3 3 3m12-6 3 3-3 3"/></svg>Pan move</button></div><p id="moveHint">Drag to orbit · Scroll to zoom</p>
+      <div class="nav-actions"><button data-action="tour">Guided tour</button><button data-action="pause">Pause / resume</button><button data-action="shot">Take a photo</button><button data-action="settings">Scene settings</button></div>
+      <div class="nav-lighting" role="group" aria-label="Time and lighting"><button data-light="live" class="active">Live IST</button><button data-light="day">Day</button><button data-light="golden">Golden</button><button data-light="night">Night</button></div>
+    </section>
+    <p id="navEmpty" hidden>No matching tools or places.</p>
+  </div>
+  <footer class="nav-footer"><span class="live-dot"></span>Files are processed on your device</footer>
+</aside>
+<div class="time-status"><span id="lightStatus">Live India time</span><span id="dayPhase">Synchronising daylight</span></div>
+<div id="sectorTooltip" class="sector-tooltip" role="tooltip" hidden></div>
+<section id="documentStudio" class="document-studio" role="dialog" aria-modal="false" aria-labelledby="studioTitle" hidden>
+  <header class="studio-header"><div><span class="eyebrow">NIRMAL · OFFICE 01</span><h2 id="studioTitle">Document Studio</h2><p id="studioArrival">Your workspace in the city</p></div><button id="closeStudio" aria-label="Close Document Studio">×</button></header>
+  <div class="studio-body">
+    <label class="field-label" for="documentTool">What would you like to do?</label><select id="documentTool"></select>
+    <p id="toolDescription" class="tool-description"></p>
+    <form id="documentForm">
+      <label id="fileDrop" class="file-drop" for="documentFiles"><svg viewBox="0 0 24 24"><path d="M12 16V3m-5 5 5-5 5 5M4 16v5h16v-5"/></svg><strong>Choose files or drop them here</strong><span id="fileAcceptHint"></span><input id="documentFiles" type="file"></label>
+      <ul id="documentFileList" class="document-file-list" aria-label="Selected files"></ul>
+      <div id="documentOptions" class="document-options"></div>
+      <div id="documentProgress" class="document-progress" hidden><div></div></div>
+      <p id="documentStatus" class="document-status" role="status" aria-live="polite"></p>
+      <button id="runDocumentTool" type="submit" class="primary-action" disabled>Create document <span>→</span></button>
+    </form>
+    <div id="documentResult" class="document-result" hidden><span class="result-check">✓</span><div><strong id="resultTitle">Your file is ready</strong><p id="resultDetail"></p><a id="downloadDocument" download>Download result ↓</a></div></div>
+    <p class="studio-local-note">Local processing · No account needed · Files stay in your browser</p>
+  </div>
+</section>
+<!-- components/dock.html — bottom icon toolbar (views, tour, lighting, pause, photo, settings). -->
+<div class="dock" role="toolbar" aria-label="City and landscape controls">
+  <button data-view="0" class="active" aria-label="Full landscape overview"><svg viewBox="0 0 24 24"><path d="M4 20V10h5v10M9 20V4h6v16M15 20V8h5v12M2 20h20M11 8h2M11 12h2M11 16h2"/></svg></button>
+  <button data-view="1" id="viewHeritage" aria-label="Heritage district"><svg viewBox="0 0 24 24"><path d="M3 20h18M5 20V10h14v10M4 10h16M7 10a5 5 0 0 1 10 0M12 3v2M9 20v-6h6v6"/></svg></button>
+  <button data-view="2" id="viewGarden" aria-label="Garden district"><svg viewBox="0 0 24 24"><path d="M12 20v-5M7 15h10M12 3l-6 8h3l-4 5h14l-4-5h3Z"/></svg></button>
+  <button data-view="3" id="viewRiver" aria-label="Riverfront"><svg viewBox="0 0 24 24"><path d="M2 9c3-4 5 4 8 0s5 4 8 0 4 0 4 0M2 15c3-4 5 4 8 0s5 4 8 0 4 0 4 0M3 21h18"/></svg></button>
+  <button data-view="4" aria-label="Village"><svg viewBox="0 0 24 24"><path d="m2 11 7-6 7 6M4 10v10h10V10M8 20v-6h3v6M15 12l4-4 4 4M17 12v8h5v-8"/></svg></button>
+  <button data-view="5" aria-label="Snowy mountain panorama"><svg viewBox="0 0 24 24"><path d="m2 20 8-15 5 9 3-5 4 11ZM7 11l3 2 2-2"/></svg></button>
+  <span class="divider" aria-hidden="true"></span>
+  <button id="tour" aria-label="Start or stop the guided camera tour"><svg viewBox="0 0 24 24"><path d="m9 5 10 7-10 7Z"/></svg></button>
+  <button data-light="day" aria-label="Day lighting"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1 1M18 18l1 1M5 19l1-1M18 6l1-1"/></svg></button>
+  <button data-light="golden" aria-label="Golden hour lighting"><svg viewBox="0 0 24 24"><path d="M3 17h18M5 21h14M7 17a5 5 0 0 1 10 0M12 4v4M3 9l3 3M21 9l-3 3"/></svg></button>
+  <button data-light="night" aria-label="Night lighting"><svg viewBox="0 0 24 24"><path d="M20 15A9 9 0 0 1 9 4a9 9 0 1 0 11 11Z"/></svg></button>
+  <button data-light="live" class="active" aria-label="Use live India time for lighting" title="Live IST lighting"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2M3 3l3 1M21 3l-3 1"/></svg></button>
+  <button id="pause" aria-label="Pause city animation"><svg viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></svg></button>
+  <button id="shot" aria-label="Download a photograph of the scene"><svg viewBox="0 0 24 24"><path d="M3 7h5l2-3h4l2 3h5v13H3Z"/><circle cx="12" cy="13" r="4"/></svg></button>
+  <button id="settings" aria-label="Traffic and rendering settings" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 17h16"/><circle cx="9" cy="7" r="2" fill="currentColor"/><circle cx="15" cy="17" r="2" fill="currentColor"/></svg></button>
+</div>
+<!-- components/settings-panel.html — floating traffic / rendering settings. -->
+<section class="panel" id="settingsPanel" hidden aria-label="Scene settings">
+  <button class="closepanel" id="closeSettings" aria-label="Close settings"><svg viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"/></svg></button>
+  <div class="row">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 10 2-5h10l2 5M4 10h16v8H4ZM6 18v2M18 18v2M7 13h2M15 13h2"/></svg>
+    <input id="traffic" type="range" min="0" max="100" value="90" aria-label="Traffic density">
+  </div>
+  <div class="row">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/></svg>
+    <input id="speed" type="range" min="0.25" max="2" step="0.25" value="1" aria-label="Animation speed">
+  </div>
+  <div class="row">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M12 17v4M8 21h8"/></svg>
+    <div class="choices" id="quality" role="group" aria-label="Rendering detail">
+      <button data-quality="low" aria-label="Light rendering detail" title="Light · Best for older PCs"><svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/></svg></button>
+      <button data-quality="medium" class="active" aria-label="Balanced rendering detail" title="Balanced · Adaptive resolution and shadows"><svg viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="2"/><path d="M12 8v8M8 12h8"/></svg></button>
+      <button data-quality="high" aria-label="High rendering detail" title="High · Sharper resolution and shadows"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><rect x="8" y="8" width="8" height="8" rx="1"/></svg></button>
+    </div>
+  </div>
+  <div class="row">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="12" rx="10" ry="5"/><path d="m15 5 3 3-4 2"/></svg>
+    <input class="switch" id="autoRotate" type="checkbox" aria-label="Slow automatic camera orbit">
+  </div>
+  <div class="row">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="13" cy="4" r="2"/><path d="m12 7-3 6 4 3-2 6M12 7l3 5 4 1M9 13l-3 7M12 8l-5 2"/></svg>
+    <input class="switch" id="movingPeople" type="checkbox" checked aria-label="Walking pedestrians">
+  </div>
+  <p id="performanceStatus" class="performance-status" role="status">Adaptive rendering · 60 FPS target</p>
+</section>
+<!-- components/legacy.html — hidden hooks kept for diagnostics / keyboard shortcuts. -->
+<div class="legacy" hidden aria-hidden="true">
+  <span id="weatherText"></span>
+  <span id="clock"></span>
+  <span id="storyTitle"></span>
+  <span id="storyText"></span>
+  <span id="chapterText"></span>
+  <button id="prevView"></button>
+  <button id="nextView"></button>
+  <button id="help"></button>
+  <div id="helpModal" hidden><button id="closeHelp"></button></div>
+  <canvas id="minimap" width="284" height="232"></canvas>
+  <output id="trafficOutput"></output>
+  <output id="speedOutput"></output>
+  <div id="toast" hidden></div>
+</div>
+<!-- components/loading.html — boot splash with progress bar and failure slot. -->
+<div class="loading" id="loading">
+  <div class="loadicon" aria-label="Preparing the landscape">
+    <svg viewBox="0 0 24 24"><path d="M4 20V10h5v10M9 20V4h6v16M15 20V8h5v12M2 20h20M11 8h2M11 12h2M11 16h2"/></svg>
+  </div>
+  <div class="progress"><div id="loadProgress"></div></div>
+  <span id="loadingText" hidden></span>
+  <div id="failure" hidden></div>
+</div>
+<noscript><div style="position:fixed;inset:0;z-index:20;background:#e8eee4;display:grid;place-items:center">Enable JavaScript to explore Nirmal.</div></noscript>
+<!-- components/scripts.html — load order. Classic scripts (no modules) so file:// works offline. -->
+<script src="vendor/three.js"></script>
+<script src="vendor/gsap.min.js"></script>
+<!-- core -->
+<script src="js/core/config.js"></script>
+<script src="js/core/sectors.js"></script>
+<script src="js/core/assets.js"></script>
+<script src="js/core/batching.js"></script>
+<!-- terrain & sky -->
+<script src="js/terrain/vegetation.js"></script>
+<script src="js/terrain/terrain.js"></script>
+<script src="js/terrain/atmosphere.js"></script>
+<!-- city districts -->
+<script src="js/city/buildings.js"></script>
+<script src="js/city/heritage.js"></script>
+<script src="js/city/parks.js"></script>
+<script src="js/city/community.js"></script>
+<!-- village -->
+<script src="js/village/village.js"></script>
+<!-- riverfront -->
+<script src="js/waterfront/river.js"></script>
+<!-- transit & life -->
+<script src="js/transit/metro.js"></script>
+<script src="js/transit/traffic.js"></script>
+<script src="js/transit/people.js"></script>
+<!-- independent sector layouts; shared builders above, boot below -->
+<script src="js/sectors/Sector-31A.js"></script>
+<script src="js/sectors/Sector-31B.js"></script>
+<script src="js/sectors/Sector-31C.js"></script>
+<script src="js/sectors/Sector-31D.js"></script>
+<script src="js/sectors/Sector-31E.js"></script>
+<script src="js/sectors/Sector-31F.js"></script>
+<script src="js/sectors/Sector-32A.js"></script>
+<script src="js/sectors/Sector-32B.js"></script>
+<script src="js/sectors/Sector-32C.js"></script>
+<script src="js/sectors/Sector-32D.js"></script>
+<script src="js/sectors/Sector-32E.js"></script>
+<script src="js/sectors/Sector-32F.js"></script>
+<script src="js/sectors/Sector-33A.js"></script>
+<script src="js/sectors/Sector-33B.js"></script>
+<script src="js/sectors/Sector-33C.js"></script>
+<script src="js/sectors/Sector-33D.js"></script>
+<script src="js/sectors/Sector-33E.js"></script>
+<script src="js/sectors/Sector-33F.js"></script>
+<script src="js/sectors/Sector-34A.js"></script>
+<script src="js/sectors/Sector-34B.js"></script>
+<script src="js/sectors/Sector-34C.js"></script>
+<script src="js/sectors/Sector-34D.js"></script>
+<script src="js/sectors/Sector-34E.js"></script>
+<script src="js/sectors/Sector-34F.js"></script>
+<script src="js/sectors/Sector-35A.js"></script>
+<script src="js/sectors/Sector-35B.js"></script>
+<script src="js/sectors/Sector-35C.js"></script>
+<script src="js/sectors/Sector-35D.js"></script>
+<script src="js/sectors/Sector-35E.js"></script>
+<script src="js/sectors/Sector-35F.js"></script>
+<script src="js/sectors/Sector-36A.js"></script>
+<script src="js/sectors/Sector-36B.js"></script>
+<script src="js/sectors/Sector-36C.js"></script>
+<script src="js/sectors/Sector-36D.js"></script>
+<script src="js/sectors/Sector-36E.js"></script>
+<script src="js/sectors/Sector-36F.js"></script>
+<script src="js/sectors/Sector-37A.js"></script>
+<script src="js/sectors/Sector-37B.js"></script>
+<script src="js/sectors/Sector-37C.js"></script>
+<script src="js/sectors/Sector-37D.js"></script>
+<script src="js/sectors/Sector-37E.js"></script>
+<script src="js/sectors/Sector-37F.js"></script>
+<script src="js/sectors/Sector-38A.js"></script>
+<script src="js/sectors/Sector-38B.js"></script>
+<script src="js/sectors/Sector-38C.js"></script>
+<script src="js/sectors/Sector-38D.js"></script>
+<script src="js/sectors/Sector-38E.js"></script>
+<script src="js/sectors/Sector-38F.js"></script>
+<script src="js/sectors/Sector-41A.js"></script>
+<script src="js/sectors/Sector-41B.js"></script>
+<script src="js/sectors/Sector-41C.js"></script>
+<script src="js/sectors/Sector-42A.js"></script>
+<script src="js/sectors/Sector-42B.js"></script>
+<script src="js/sectors/Sector-42C.js"></script>
+<script src="js/sectors/Sector-43A.js"></script>
+<script src="js/sectors/Sector-43B.js"></script>
+<script src="js/sectors/Sector-43C.js"></script>
+<script src="js/sectors/Sector-44A.js"></script>
+<!-- app -->
+<script src="js/app/lighting.js"></script>
+<script src="js/app/camera.js"></script>
+<script src="js/app/sectors.js"></script>
+<script src="js/app/controls.js"></script>
+<script src="js/app/documents.js"></script>
+<script src="js/app/products.js"></script>
+<script src="js/app/loop.js"></script>
+</body>
+</html>

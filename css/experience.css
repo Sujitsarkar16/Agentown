@@ -1,0 +1,57 @@
+/* Floating exploration controls and real-time IST clock. */
+.sector-tooltip { position: fixed; left: 0; top: 0; z-index: 6; pointer-events: none; padding: 10px 14px; border-radius: 9px; background: #244b3bf5; color: #f7faf0; border: 1px solid #ffffff60; box-shadow: 0 4px 14px #14372624; font-size: 12px; font-weight: bold; letter-spacing: .4px; white-space: nowrap; }
+.hudhidden .sector-tooltip { display: none; }
+.scene-hud { position: absolute; inset: 24px 28px auto; z-index: 3; display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; pointer-events: none; }
+.scene-brand, .india-clock, .explore-panel, .time-status { color: #244b3b; background: #f7faf0e3; border: 1px solid #ffffff90; backdrop-filter: blur(16px); box-shadow: 0 6px 28px #14372612; border-radius: 16px; }
+.scene-brand { display: flex; gap: 12px; align-items: center; padding: 13px 18px 13px 13px; }
+.brand-mark { display: grid; place-items: center; background: #2b6449; color: #fff; border-radius: 10px; width: 38px; height: 38px; font-size: 22px; font-weight: bold; }
+.scene-brand strong { display: block; font-size: 14px; letter-spacing: 3px; }
+.scene-brand div > span { display: block; font-size: 11px; margin-top: 5px; opacity: .72; }
+.india-clock { display: flex; align-items: center; gap: 12px; padding: 14px 18px; }
+.live-dot { width: 7px; height: 7px; border-radius: 50%; background: #409b65; box-shadow: 0 0 0 4px #409b6518; }
+.india-clock time { display: block; font-size: 20px; font-variant-numeric: tabular-nums; letter-spacing: 1px; }
+.india-clock div > span { display: block; font-size: 10px; margin-top: 5px; opacity: .72; }
+.timezone { font-size: 10px; font-weight: bold; border-left: 1px solid #527d4930; padding-left: 12px; }
+.explore-panel { position: absolute; z-index: 3; top: 112px; left: 28px; padding: 8px; width: 248px; }
+.move-modes { display: flex; gap: 4px; }
+.move-modes button { flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 11px 8px; border: 0; border-radius: 10px; background: transparent; color: inherit; font-size: 12px; }
+.move-modes button.active { background: #2b6449; color: #fff; }
+.move-modes svg { width: 16px; height: 16px; }
+#moveHint { font-size: 10px; text-align: center; margin: 12px 0; opacity: .7; }
+.neighbourhood-links { border-top: 1px solid #527d4920; padding-top: 5px; }
+.neighbourhood-links button { display: flex; justify-content: space-between; width: 100%; padding: 10px 12px; border: 0; border-radius: 8px; text-align: left; background: transparent; color: inherit; font-size: 11px; }
+.neighbourhood-links button:hover, .neighbourhood-links button.active { background: #dce8d7; }
+.neighbourhood-links span { opacity: .6; }
+.time-status { position: absolute; right: 28px; bottom: 26px; z-index: 2; padding: 12px 16px; font-size: 11px; pointer-events: none; }
+.time-status span { display: block; }
+#dayPhase { font-size: 10px; margin-top: 5px; opacity: .65; }
+#world { cursor: grab; }
+#world.dragging { cursor: grabbing; }
+body.night .scene-brand, body.night .india-clock, body.night .explore-panel, body.night .time-status { background: #1a302ae6; color: #d6e2d8; border-color: #55746345; }
+body.night .neighbourhood-links button:hover, body.night .neighbourhood-links button.active { background: #78946b30; }
+.hudhidden .scene-hud, .hudhidden .explore-panel, .hudhidden .time-status { opacity: 0; pointer-events: none; }
+.dock { max-width: calc(100% - 20px); overflow-x: auto; }
+.dock button { flex-shrink: 0; }
+@media (max-width: 1100px) { .time-status { bottom: 84px; } }
+@media (max-width: 700px) {
+  .scene-hud { inset: 14px 14px auto; }
+  .scene-brand { padding: 10px; gap: 8px; }
+  .scene-brand div > span { display: none; }
+  .scene-brand strong { font-size: 11px; letter-spacing: 2px; }
+  .brand-mark { width: 28px; height: 28px; font-size: 17px; }
+  .india-clock { padding: 10px 12px; gap: 8px; }
+  .india-clock time { font-size: 14px; }
+  .india-clock div > span { font-size: 9px; max-width: 145px; }
+  .timezone { display: none; }
+  .explore-panel { top: 85px; left: 14px; width: 206px; }
+  .move-modes button { padding: 9px 6px; font-size: 11px; }
+  .neighbourhood-links button { padding: 8px 10px; }
+  .time-status { right: 14px; bottom: 75px; padding: 8px 10px; font-size: 10px; }
+}
+@media (max-height: 500px) { .scene-hud { top: 10px; } .explore-panel { top: 80px; } .neighbourhood-links { display: flex; } .neighbourhood-links button { font-size: 9px; padding: 8px 4px; } .neighbourhood-links span { display: none; } }
+
+/* Solid translucent panels avoid continuously blurring the moving WebGL canvas. */
+body.performance-light .scene-brand, body.performance-light .india-clock,
+body.performance-light .explore-panel, body.performance-light .time-status,
+body.performance-light .dock, body.performance-light .panel,
+body.performance-light .document-studio { backdrop-filter: none; }

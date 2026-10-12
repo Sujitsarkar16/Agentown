@@ -1,0 +1,22 @@
+# Local tooling and dependency installs
+node_modules/
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Local credentials and environment settings
+.env
+.env.*
+!.env.example
+
+# Generated checks and logs
+playwright-report/
+test-results/
+screenshots/
+*.log
+
+# Operating-system files
+.DS_Store
+Thumbs.db
+Desktop.ini

@@ -1,0 +1,112 @@
+/* Nirmal — css/panel.css
+ * Floating settings panel: sliders, quality choices and toggle switches. */
+
+.panel {
+  position: absolute;
+  z-index: 4;
+  bottom: 88px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 265px;
+  padding: 37px 22px 20px;
+  border-radius: 18px;
+  background: #f7faf0e6;
+  backdrop-filter: blur(18px);
+  border: 1px solid #fff9;
+  box-shadow: 0 6px 28px #14372618;
+}
+
+.closepanel {
+  position: absolute;
+  right: 8px;
+  top: 6px;
+  width: 26px;
+  height: 26px;
+}
+
+.closepanel svg {
+  width: 13px;
+  height: 13px;
+}
+
+.row {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  margin: 17px 0;
+  color: #47664e;
+}
+
+.row svg {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+}
+
+input[type="range"] {
+  width: 100%;
+  min-width: 0;
+  accent-color: #2e6951;
+  cursor: pointer;
+}
+
+.choices {
+  display: flex;
+  gap: 5px;
+  flex: 1;
+}
+
+.choices button {
+  display: grid;
+  place-items: center;
+  height: 30px;
+  flex: 1;
+  border: 0;
+  border-radius: 8px;
+  background: #e3eadc;
+  color: #789076;
+}
+
+.choices button.active {
+  background: #245d46;
+  color: #fff;
+}
+
+.switch {
+  appearance: none;
+  position: relative;
+  width: 33px;
+  height: 19px;
+  border-radius: 20px;
+  background: #c8d4c5;
+  cursor: pointer;
+  margin-left: auto;
+}
+
+.switch:before {
+  content: "";
+  position: absolute;
+  left: 3px;
+  top: 3px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #fff;
+  transition: transform 0.2s;
+}
+
+.switch:checked {
+  background: #2e6951;
+}
+
+.switch:checked:before {
+  transform: translateX(14px);
+}
+.performance-status {
+  margin: 6px 0 0;
+  max-width: 230px;
+  font-size: 10px;
+  line-height: 1.5;
+  color: inherit;
+  opacity: .7;
+}
